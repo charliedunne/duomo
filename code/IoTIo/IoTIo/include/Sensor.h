@@ -19,8 +19,8 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  *
  * @file Sensor.h
- * @brief 
- * @details
+ * @brief Abstract class for sensor implementation.
+ * @details This class shall create a periodic thread
  *
  */
 
@@ -43,24 +43,34 @@ private:
 	/** @brief Sensor Name for displaying purposes */
 	std::string _sensorName;
 
+	/** @brief Sounding Period in milliseconds [ms] */
+	unsigned int _soundingPeriod;
 
 public:
 
-	/**
-	 * @brief Constructor with no arguments
-	 *
-	 */
 	Sensor();
 
 	/**
 	 * @brief Constructor with sensor name
 	 */
-	Sensor(std::string sensorName);
+	Sensor(const std::string &sensorName);
+
+	/**
+	 * @brief Constructor with sensor name and sounding period
+	 */
+	Sensor(const std::string &sensorName, const unsigned int soundingPeriod);
 
 	/**
 	 * @brief Destructor
 	 */
 	virtual ~Sensor();
+
+	/**
+	 * @brief Get the sensor name assigned
+	 *
+	 * @return Reference to Sensor Name
+	 */
+	const std::string& getSensorName() const;
 
 	/**
 	 * @brief Set the name of the sensor
@@ -69,15 +79,25 @@ public:
 	 *
 	 * @return void
 	 */
-	void setName(std::string sensorName);
+	void setSensorName(const std::string &sensorName);
 
 	/**
-	 * @brief Get the sensor name assigned
-	 *
-	 * @return Reference to Sensor Name
+	 * @brief Get the Sounding Period
+	 * @return Number of milliseconds [ms] for the Sounding Period configured
 	 */
-	std::string & getName(void);
+	unsigned int getSoundingPeriod() const;
 
+	/**
+	 * @brief Set the Sounding Period
+	 * @param[in] soundingPeriod Sounding Period in milliseconds [ms]
+	 */
+	void setSoundingPeriod(const unsigned int soundingPeriod);
+
+	/**
+	 * @brief Abstract class to be implemented in derived classes where the logic
+	 * of every sounding period shall be implemented
+	 */
+	virtual void thread() = 0;
 
 };
 

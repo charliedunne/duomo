@@ -1,5 +1,5 @@
 /**
- * @addtogroup Sensor
+ * @addtogroup main
  *
  * @{
  *
@@ -18,9 +18,9 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  *
- * @file Sensor.cpp
- * @brief (see Sensor.h)
- * @details (see Sensor.h)
+ * @file main.cpp
+ * @brief (see main.h)
+ * @details (see main.h)
  *
  */
 
@@ -28,58 +28,24 @@
  * INCLUDES
  * ****************************************************************************/
 
-/* Provided interface */
-#include "Sensor.h"
+/* Gtest */
+#include "gtest/gtest.h"
+
 
 /* *****************************************************************************
  * PRIVATE DECLARATIONS
  * ****************************************************************************/
 
-Sensor::Sensor() {
+int main(int argc, char * argv[])
+{
 
-	_sensorName = "";
-	_soundingPeriod = 0;
+	::testing::InitGoogleTest(&argc, argv);
+
+	return RUN_ALL_TESTS();
+
 }
 
-Sensor::Sensor(const std::string &sensorName) {
 
-	/* Set the sensor name */
-	_sensorName = sensorName;
-
-	/* Set the default Sounding value */
-	_soundingPeriod = 0;
-}
-
-Sensor::Sensor(const std::string &sensorName,
-		const unsigned int soundingPeriod) {
-
-	/* Set the sensor name */
-	_sensorName = sensorName;
-
-	/* Set the default Sounding value */
-	_soundingPeriod = soundingPeriod;
-}
-
-Sensor::~Sensor() {
-	/* Do nothing */
-}
-
-unsigned int Sensor::getSoundingPeriod() const {
-
-	return _soundingPeriod;
-}
-
-void Sensor::setSoundingPeriod(unsigned int soundingPeriod) {
-	_soundingPeriod = soundingPeriod;
-}
-
-const std::string& Sensor::getSensorName() const {
-	return _sensorName;
-}
-
-void Sensor::setSensorName(const std::string &sensorName) {
-	_sensorName = sensorName;
-}
 /**
- * @} (Sensor)
+ * @} (main)
  */
