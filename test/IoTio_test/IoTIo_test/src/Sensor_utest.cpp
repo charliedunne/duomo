@@ -49,7 +49,8 @@ public:
 	using Sensor::Sensor;
 
 	/* Stub for the thread (not used) */
-	void thread() {
+	void operation() {
+		this->setSoundingPeriod(10);
 	}
 
 };
@@ -83,6 +84,17 @@ TEST(Sensor, NameAndSoundingConstructor) {
 
 	/* Check Default sounding period */
 	ASSERT_EQ(sensor.getSoundingPeriod(), soundingPeriod);
+}
+
+TEST(Sensor, TestRun)
+{
+	/* Create the object */
+	StubSensor sensor("Sensor_A", (unsigned int)5);
+
+	/* Start the thread */
+	sensor.run();
+
+	ASSERT_EQ(sensor.getSoundingPeriod(), (unsigned int)1);
 }
 
 /**

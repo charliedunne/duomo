@@ -31,17 +31,25 @@
 /* Gtest */
 #include "gtest/gtest.h"
 
+#include <thread>
 
 /* *****************************************************************************
  * PRIVATE DECLARATIONS
  * ****************************************************************************/
 
+
 int main(int argc, char * argv[])
 {
+	/* Results from test */
+	int iRetCode = 0;
 
+	/* Initialization of Google Test */
 	::testing::InitGoogleTest(&argc, argv);
 
-	return RUN_ALL_TESTS();
+	/* Run utests */
+	iRetCode = RUN_ALL_TESTS();
+
+	return iRetCode;
 
 }
 

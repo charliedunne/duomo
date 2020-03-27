@@ -31,13 +31,24 @@
  *  INCLUDES
  * ****************************************************************************/
 
+/* System libraries */
 #include <string>
+#include <thread>
 
 /* *****************************************************************************
  *  CLASS DECLARATION
  * ****************************************************************************/
 
 class Sensor {
+
+protected:
+
+	/**
+	 * @brief Abstract class to be implemented in derived classes where the logic
+	 * of every sounding period shall be implemented
+	 */
+	virtual void operation() = 0;
+
 private:
 
 	/** @brief Sensor Name for displaying purposes */
@@ -46,9 +57,22 @@ private:
 	/** @brief Sounding Period in milliseconds [ms] */
 	unsigned int _soundingPeriod;
 
+	/** @brief Thread object */
+	std::thread _thread;
+
 public:
 
-	Sensor();
+	Sensor() = delete;
+
+	/**
+	 * @brief No copy constructor for this class
+	 */
+	Sensor(const Sensor&) = delete;
+
+	/**
+	 * @brief No assignment operation for this class
+	 */
+	Sensor& operator=(const Sensor&) = delete;
 
 	/**
 	 * @brief Constructor with sensor name
@@ -94,11 +118,14 @@ public:
 	void setSoundingPeriod(const unsigned int soundingPeriod);
 
 	/**
-	 * @brief Abstract class to be implemented in derived classes where the logic
-	 * of every sounding period shall be implemented
+	 * @brief Start the thread operation
 	 */
-	virtual void thread() = 0;
+	void run();
 
+	/**
+	 * @brief join operation
+	 */
+	void join();
 };
 
 #endif /* SENSOR_H_ */

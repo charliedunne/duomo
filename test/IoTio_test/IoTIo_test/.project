@@ -28,7 +28,7 @@
 		<link>
 			<name>googletest</name>
 			<type>2</type>
-			<locationURI>PARENT-1-PROJECT_LOC/googletest/googletest</locationURI>
+			<locationURI>WORKSPACE_LOC/googletest/googletest</locationURI>
 		</link>
 	</linkedResources>
 </projectDescription>

@@ -35,12 +35,6 @@
  * PRIVATE DECLARATIONS
  * ****************************************************************************/
 
-Sensor::Sensor() {
-
-	_sensorName = "";
-	_soundingPeriod = 0;
-}
-
 Sensor::Sensor(const std::string &sensorName) {
 
 	/* Set the sensor name */
@@ -61,7 +55,9 @@ Sensor::Sensor(const std::string &sensorName,
 }
 
 Sensor::~Sensor() {
-	/* Do nothing */
+
+	/* Wait for the finalization of the thread */
+//	_thread.join();
 }
 
 unsigned int Sensor::getSoundingPeriod() const {
@@ -80,6 +76,15 @@ const std::string& Sensor::getSensorName() const {
 void Sensor::setSensorName(const std::string &sensorName) {
 	_sensorName = sensorName;
 }
+
+void Sensor::run() {
+	_thread = std::thread(Sensor::operation, this);
+}
+
+void Sensor::join() {
+	_thread.join();
+}
+
 /**
  * @} (Sensor)
  */
