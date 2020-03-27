@@ -34,6 +34,9 @@
 /* SWUT */
 #include "Sensor.h"
 
+/* System libraries */
+#include <chrono>
+
 /* *****************************************************************************
  * TEST DECLARATIONS
  * ****************************************************************************/
@@ -50,7 +53,7 @@ public:
 
 	/* Stub for the thread (not used) */
 	void operation() {
-		this->setSoundingPeriod(10);
+		setSoundingPeriod(1);
 	}
 
 };
@@ -91,9 +94,16 @@ TEST(Sensor, TestRun)
 	/* Create the object */
 	StubSensor sensor("Sensor_A", (unsigned int)5);
 
+	/* Check the soundingPeriod value before the thread body modifies it */
+	ASSERT_EQ(sensor.getSoundingPeriod(), (unsigned int)5);
+
 	/* Start the thread */
 	sensor.run();
 
+	/* Wait some time to allow the thread to run */
+	std::this_thread::sleep_for(std::chrono::milliseconds(1000));
+
+	/* Check now that the value has been changed by the thread */
 	ASSERT_EQ(sensor.getSoundingPeriod(), (unsigned int)1);
 }
 

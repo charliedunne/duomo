@@ -57,7 +57,10 @@ Sensor::Sensor(const std::string &sensorName,
 Sensor::~Sensor() {
 
 	/* Wait for the finalization of the thread */
-//	_thread.join();
+	if (_thread.joinable())
+	{
+		_thread.join();
+	}
 }
 
 unsigned int Sensor::getSoundingPeriod() const {
@@ -78,7 +81,8 @@ void Sensor::setSensorName(const std::string &sensorName) {
 }
 
 void Sensor::run() {
-	_thread = std::thread(Sensor::operation, this);
+	//_thread = std::thread(Sensor::operation, this);
+	this->_thread = std::thread([=] {this->operation(); });
 }
 
 void Sensor::join() {

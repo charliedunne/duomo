@@ -49,6 +49,11 @@ protected:
 	 */
 	virtual void operation() = 0;
 
+	/**
+	 * @brief Destructor
+	 */
+	virtual ~Sensor();
+
 private:
 
 	/** @brief Sensor Name for displaying purposes */
@@ -85,11 +90,6 @@ public:
 	Sensor(const std::string &sensorName, const unsigned int soundingPeriod);
 
 	/**
-	 * @brief Destructor
-	 */
-	virtual ~Sensor();
-
-	/**
 	 * @brief Get the sensor name assigned
 	 *
 	 * @return Reference to Sensor Name
@@ -121,6 +121,8 @@ public:
 	 * @brief Start the thread operation
 	 */
 	void run();
+
+protected:
 
 	/**
 	 * @brief join operation
