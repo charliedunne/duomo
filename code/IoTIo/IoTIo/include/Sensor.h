@@ -67,19 +67,22 @@ private:
 
 protected:
 
+	/*
+	 * Note that the pure virtual function must be declared prior to the destructor
+	 * (I don't know why)
+	 */
+
 	/**
 	 * @brief Abstract class to be implemented in derived classes where the logic
 	 * of every sounding period shall be implemented
 	 */
 	virtual void operation() = 0;
 
-	/**
-	 * @brief Destructor
-	 */
-	virtual ~Sensor();
-
 public:
 
+	/* Constructors */
+
+	/** @brief Delete default constructor */
 	Sensor() = delete;
 
 	/**
@@ -101,6 +104,15 @@ public:
 	 * @brief Constructor with only sensor name
 	 */
 	Sensor(const std::string &sensorName) : Sensor(sensorName, 0) {};
+
+	/* Destructors */
+
+	/**
+	 * @brief Destructor
+	 */
+	virtual ~Sensor();
+
+	/* Sets and Gets */
 
 	/**
 	 * @brief Get the sensor name assigned
@@ -142,6 +154,8 @@ public:
 	 */
 	void setMaxRuns(const unsigned int maxRuns);
 
+	/* Threading operations */
+
 	/**
 	 * @brief Start the thread operation
 	 * @note that the thread shall be executed as many times as it is defined
@@ -155,6 +169,7 @@ public:
 	 * @brief join operation
 	 */
 	void join();
+
 };
 
 #endif /* SENSOR_H_ */
