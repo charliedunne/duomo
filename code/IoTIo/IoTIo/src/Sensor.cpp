@@ -31,18 +31,12 @@
 /* Provided interface */
 #include "Sensor.h"
 
+/* System libraries */
+#include <chrono>
+
 /* *****************************************************************************
  * PRIVATE DECLARATIONS
  * ****************************************************************************/
-
-Sensor::Sensor(const std::string &sensorName) {
-
-	/* Set the sensor name */
-	_sensorName = sensorName;
-
-	/* Set the default Sounding value */
-	_soundingPeriod = 0;
-}
 
 Sensor::Sensor(const std::string &sensorName,
 		const unsigned int soundingPeriod) {
@@ -52,16 +46,25 @@ Sensor::Sensor(const std::string &sensorName,
 
 	/* Set the default Sounding value */
 	_soundingPeriod = soundingPeriod;
+
+	/* Maximum Number of runs, by default unlimited */
+	_maxRuns = 0;
+
+	/* Initialize runs counter */
+	_runsCounter = _maxRuns;
 }
 
 Sensor::~Sensor() {
 
 	/* Wait for the finalization of the thread */
-	if (_thread.joinable())
-	{
+	if (_thread.joinable()) {
 		_thread.join();
 	}
 }
+
+/* *****************************************************************************
+ * SETs and GETs
+ * ****************************************************************************/
 
 unsigned int Sensor::getSoundingPeriod() const {
 
@@ -80,14 +83,58 @@ void Sensor::setSensorName(const std::string &sensorName) {
 	_sensorName = sensorName;
 }
 
+unsigned int Sensor::getMaxRuns() const {
+	return _maxRuns;
+}
+
+void Sensor::setMaxRuns(const unsigned int maxRuns) {
+
+	/* Set the Maximum runs configured */
+	_maxRuns = maxRuns;
+}
+
+/* *****************************************************************************
+ * THREAD RELATED METHODS
+ * ****************************************************************************/
+
 void Sensor::run() {
-	//_thread = std::thread(Sensor::operation, this);
-	this->_thread = std::thread([=] {this->operation(); });
+
+	/* Reset the runs Counter */
+	_runsCounter = _maxRuns;
+
+	/* Spawn the thread */
+	_thread = std::thread(Sensor::threadBody, this);
+	//this->_thread = std::thread([=] {this->operation();});
 }
 
 void Sensor::join() {
 	_thread.join();
 }
+
+void Sensor::threadBody() {
+
+	/* In the case of _maxRuns = 0, fake the _runsCounter */
+	if (_maxRuns == 0)
+	{
+		_runsCounter = 1;
+	}
+
+	while (_runsCounter > 0) {
+
+		/* Run the user define operations */
+		operation();
+
+		/* Decrease runs counter (if applicable) */
+		if (_maxRuns > 0)
+		{
+			_runsCounter--;
+		}
+
+		/* Wait for the next cycle */
+		std::this_thread::sleep_for(std::chrono::milliseconds(_soundingPeriod));
+	}
+}
+
 
 /**
  * @} (Sensor)

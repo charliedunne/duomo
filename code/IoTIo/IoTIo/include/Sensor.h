@@ -41,6 +41,30 @@
 
 class Sensor {
 
+private:
+
+	/** @brief Sensor Name for displaying purposes */
+	std::string _sensorName;
+
+	/** @brief Sounding Period in milliseconds [ms] */
+	unsigned int _soundingPeriod;
+
+	/** @brief Number of executions of the main thread, 0 means unlimited */
+	unsigned int _maxRuns;
+
+	/** @brief Runs counter */
+	unsigned int _runsCounter;
+
+	/** @brief Thread object */
+	std::thread _thread;
+
+	/**
+	 * @brief Thread body to be called in every step.
+	 * @note Note that this function shall call internally to the pure virtual
+	 * function @b operation and then shall perform a sleep of the @ _soundingPeriod
+	 */
+	void threadBody();
+
 protected:
 
 	/**
@@ -53,17 +77,6 @@ protected:
 	 * @brief Destructor
 	 */
 	virtual ~Sensor();
-
-private:
-
-	/** @brief Sensor Name for displaying purposes */
-	std::string _sensorName;
-
-	/** @brief Sounding Period in milliseconds [ms] */
-	unsigned int _soundingPeriod;
-
-	/** @brief Thread object */
-	std::thread _thread;
 
 public:
 
@@ -80,14 +93,14 @@ public:
 	Sensor& operator=(const Sensor&) = delete;
 
 	/**
-	 * @brief Constructor with sensor name
-	 */
-	Sensor(const std::string &sensorName);
-
-	/**
 	 * @brief Constructor with sensor name and sounding period
 	 */
 	Sensor(const std::string &sensorName, const unsigned int soundingPeriod);
+
+	/**
+	 * @brief Constructor with only sensor name
+	 */
+	Sensor(const std::string &sensorName) : Sensor(sensorName, 0) {};
 
 	/**
 	 * @brief Get the sensor name assigned
@@ -118,11 +131,25 @@ public:
 	void setSoundingPeriod(const unsigned int soundingPeriod);
 
 	/**
+	 * @brief Obtain the Maximum number of Runs of configured
+	 * @return Maximum runs configured, 0 means infinite
+	 */
+	unsigned int getMaxRuns() const;
+
+	/**
+	 * @brief Set the maximum number of runs allowed
+	 * @param[in] maxRuns Number of Maximum runs, 0 means infinite.
+	 */
+	void setMaxRuns(const unsigned int maxRuns);
+
+	/**
 	 * @brief Start the thread operation
+	 * @note that the thread shall be executed as many times as it is defined
+	 * by the private member @b _maxRuns, after that the thread ends its own
+	 * execution. You can restart the thread again by calling this function
+	 * again.
 	 */
 	void run();
-
-protected:
 
 	/**
 	 * @brief join operation

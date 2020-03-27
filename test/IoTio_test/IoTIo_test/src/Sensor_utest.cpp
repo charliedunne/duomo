@@ -53,7 +53,7 @@ public:
 
 	/* Stub for the thread (not used) */
 	void operation() {
-		setSoundingPeriod(1);
+		setSoundingPeriod(getSoundingPeriod() - 1);
 	}
 
 };
@@ -94,17 +94,20 @@ TEST(Sensor, TestRun)
 	/* Create the object */
 	StubSensor sensor("Sensor_A", (unsigned int)5);
 
+	/* Set the maximum number of executions of the thread to 1 */
+	//sensor.setMaxRuns(1);
+
 	/* Check the soundingPeriod value before the thread body modifies it */
 	ASSERT_EQ(sensor.getSoundingPeriod(), (unsigned int)5);
 
 	/* Start the thread */
 	sensor.run();
 
-	/* Wait some time to allow the thread to run */
-	std::this_thread::sleep_for(std::chrono::milliseconds(1000));
+	/* Wait for the operation of the sensor */
+	sensor.join();
 
 	/* Check now that the value has been changed by the thread */
-	ASSERT_EQ(sensor.getSoundingPeriod(), (unsigned int)1);
+	ASSERT_EQ(sensor.getSoundingPeriod(), (unsigned int)4);
 }
 
 /**
