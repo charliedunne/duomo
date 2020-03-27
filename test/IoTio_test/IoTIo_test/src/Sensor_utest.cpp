@@ -95,7 +95,7 @@ TEST(Sensor, TestRun)
 	StubSensor sensor("Sensor_A", (unsigned int)5);
 
 	/* Set the maximum number of executions of the thread to 1 */
-	//sensor.setMaxRuns(1);
+	sensor.setMaxRuns(1);
 
 	/* Check the soundingPeriod value before the thread body modifies it */
 	ASSERT_EQ(sensor.getSoundingPeriod(), (unsigned int)5);
