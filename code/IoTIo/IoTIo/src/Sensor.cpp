@@ -103,8 +103,7 @@ void Sensor::run() {
 	_runsCounter = _maxRuns;
 
 	/* Spawn the thread */
-	_thread = std::thread(Sensor::threadBody, this);
-	//this->_thread = std::thread([=] {this->operation();});
+	this->_thread = std::thread([=] {this->operation();});
 }
 
 void Sensor::join() {
