@@ -34,6 +34,11 @@
 /* System libraries */
 #include <chrono>
 
+#ifdef DEBUG
+#include <iostream>
+#endif /* DEBUG */
+
+
 /* *****************************************************************************
  * PRIVATE DECLARATIONS
  * ****************************************************************************/
@@ -52,6 +57,9 @@ Sensor::Sensor(const std::string &sensorName,
 
 	/* Initialize runs counter */
 	_runsCounter = _maxRuns;
+
+	/* Initialize the number of thread counter */
+	_execCntr = 0;
 }
 
 Sensor::~Sensor() {
@@ -93,6 +101,10 @@ void Sensor::setMaxRuns(const unsigned int maxRuns) {
 	_maxRuns = maxRuns;
 }
 
+unsigned long long Sensor::getExecCntr() const {
+	return _execCntr;
+}
+
 /* *****************************************************************************
  * THREAD RELATED METHODS
  * ****************************************************************************/
@@ -103,7 +115,7 @@ void Sensor::run() {
 	_runsCounter = _maxRuns;
 
 	/* Spawn the thread */
-	this->_thread = std::thread([=] {this->operation();});
+	this->_thread = std::thread([=] {this->threadBody();});
 }
 
 void Sensor::join() {
@@ -120,8 +132,23 @@ void Sensor::threadBody() {
 
 	while (_runsCounter > 0) {
 
+#ifdef DEBUG
+		std::cout << "<START> operation()" << std::endl;
+#endif /* DEBUG */
+
+#ifdef DEBUG
+	std::cout << "[" << _execCntr << "] " << _sensorName << std::endl;
+#endif /* DEBUG */
+
 		/* Run the user define operations */
+		/**
+		 * @TODO Add exception management
+		 */
 		operation();
+
+#ifdef DEBUG
+		std::cout << "<END> operation()" << std::endl;
+#endif /* DEBUG */
 
 		/* Decrease runs counter (if applicable) */
 		if (_maxRuns > 0)
@@ -131,6 +158,9 @@ void Sensor::threadBody() {
 
 		/* Wait for the next cycle */
 		std::this_thread::sleep_for(std::chrono::milliseconds(_soundingPeriod));
+
+		/* Increment thread counter */
+		_execCntr++;
 	}
 }
 

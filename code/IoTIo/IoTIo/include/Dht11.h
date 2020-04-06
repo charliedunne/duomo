@@ -41,9 +41,22 @@ class Dht11: public Sensor {
 
 private:
 
+	/**
+	 * @brief GPIO pin where the sensor is connected to.
+	 * @attention To be set on the initialization
+	 */
 	const unsigned int _gpioPin;
 
+	/**
+	 * @brief Number of attempts the code shall access to the sensor if the
+	 * data returned is not ok.
+	 */
+	unsigned int _timeoutCounters;
+
+	/** @brief Data container for the temperature */
 	float _temperature;
+
+	/** @brief Data container for the humidity */
 	float _humidity;
 
 	/* Derive Constructors */

@@ -55,6 +55,9 @@ private:
 	/** @brief Runs counter */
 	unsigned int _runsCounter;
 
+	/** @brief Number of times the threadBody has bee executed */
+	unsigned long long _execCntr;
+
 	/** @brief Thread object */
 	std::thread _thread;
 
@@ -147,6 +150,13 @@ public:
 	 * @return Maximum runs configured, 0 means infinite
 	 */
 	unsigned int getMaxRuns() const;
+
+	/**
+	 * @brief Get the value of the Executions Counter
+	 *
+	 * @return Number of times the main thread has been executed.
+	 */
+	unsigned long long getExecCntr() const;
 
 	/**
 	 * @brief Set the maximum number of runs allowed

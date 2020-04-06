@@ -86,7 +86,7 @@ TEST(Dht11, Thread) {
 	Dht11 sensor("DHT11", 0, 7);
 
 	/* Set the number of runs to 1 */
-	sensor.setMaxRuns(1);
+	//sensor.setMaxRuns(1);
 
 	/* Run the thread */
 	sensor.run();
