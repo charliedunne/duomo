@@ -35,6 +35,11 @@
 #include <string>
 #include <thread>
 
+/* PAHO MQTT Library */
+extern "C" {
+#include <MQTTClient.h>
+}
+
 /* *****************************************************************************
  *  CLASS DECLARATION
  * ****************************************************************************/
@@ -67,6 +72,12 @@ private:
 	 * function @b operation and then shall perform a sleep of the @ _soundingPeriod
 	 */
 	void threadBody();
+
+	/** @brief MQTT Handler */
+	MQTTClient _mqttHandler = NULL;
+
+	/** @brief MQTT Publish timeout */
+	const unsigned long MQTT_TIMEOUT = 1000L;
 
 protected:
 
@@ -106,7 +117,10 @@ public:
 	/**
 	 * @brief Constructor with only sensor name
 	 */
-	Sensor(const std::string &sensorName) : Sensor(sensorName, 0) {};
+	Sensor(const std::string &sensorName) :
+			Sensor(sensorName, 0) {
+	}
+	;
 
 	/* Destructors */
 
@@ -179,6 +193,87 @@ public:
 	 * @brief join operation
 	 */
 	void join();
+
+private:
+
+	/* MQTT */
+
+	/**
+	 * @brief This function shall create the MQTT Handler resources and
+	 * initialize them.
+	 *
+	 * @param[in] address String with the hostname (or IP address).
+	 * @param[in] port Port to connect to.
+	 * @return Return code
+	 * @retval 0 if the operation was SUCCESS
+	 * @retval # if the operation produce an error. The value returned is the
+	 * MQTT error code
+	 */
+	int mqttInit(const std::string address, const unsigned int port);
+
+	/**
+	 * @brief Establish the connection with the remote
+	 * @param[in] accessToken String with the API key to connect to.
+	 * @return Return code
+	 * @retval 0 if the operation was SUCCESS
+	 * @retval # if the operation produce an error. The value returned is the
+	 * MQTT error code
+	 */
+	int mqttConnect(const std::string accessToken);
+
+	/**
+	 * @brief Publish a MQTT message into an specific topic
+	 * @param[in] topic String with the destination topic
+	 * @param[in] message Message to publish (as string)
+	 * @return Return code
+	 * @retval 0 if the operation was SUCCESS
+	 * @retval # if the operation produce an error. The value returned is the
+	 * MQTT error code
+	 */
+	int mqttPublish(const std::string topic, const std::string message);
+
+	/**
+	 * @brief Down the MQTT connection
+	 * @retval 0 if the operation was SUCCESS
+	 * @retval # if the operation produce an error. The value returned is the
+	 * MQTT error code
+	 */
+	int mqttDisconnect(void);
+
+	/**
+	 * @brief Destroy and free the MQTT API resources
+	 */
+	void mqttDestroy(void);
+
+public:
+
+	/**
+	 * @brief Configure the MQTT connection. Note that this function contains
+	 * as default parameters the hostname and the port, if none are provided
+	 * by the user they shall be @i localhost and @i 1883 respectively.
+	 * @attention Note that this MQTT link has been developed to be used for
+	 * @b Thingsboard however some configuration is let to the user so it
+	 * can be used with other systems.
+	 * @param[in] accessToken string with the API key of the remote target
+	 * @param[in] hostname Name or IP of the remote. Default @i localhost
+	 * @param[in] port Port to be used in the communication. Default @i 1883
+	 *
+	 * @throws This function can throw a @b MqttException that shall also
+	 * provides information about the PAHO MQTT error code.
+	 */
+	void configureMqtt(const std::string accessToken,
+			const std::string hostname = "localhost", const unsigned int port =
+					1883);
+
+	/**
+	 * @brief Send an MQTT message to an specific topic
+	 * @param[in] topic String with the topic to write in
+	 * @param[in] message Message to be sent
+	 *
+	 * @throws This function can throw a @b MqttException that shall also
+	 * provides information about the PAHO MQTT error code.
+	 */
+	void sendMqttMessage(const std::string topic, const std::string message);
 
 };
 

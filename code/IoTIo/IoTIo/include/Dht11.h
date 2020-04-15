@@ -59,7 +59,21 @@ private:
 	/** @brief Data container for the humidity */
 	float _humidity;
 
-	/* Derive Constructors */
+	/*
+	 * MQTT Configuration
+	 */
+
+	/** @TODO All these data should come from an xml file */
+
+	/** @brief API Key to connect */
+	std::string _accessToken = "LIRMyALH8x164XD3a4kWz";
+
+	/** @brief Topic */
+	std::string _topic = "v1/devices/me/telemetry";
+
+	/*
+	 * Derive Constructors
+	 */
 
 	using Sensor::Sensor;
 
@@ -74,7 +88,7 @@ public:
 	 * there are two instances of the same object since it is associated
 	 * to a specific gpio pin.
 	 */
-	Dht11(const Dht11 &) = delete;
+	Dht11(const Dht11&) = delete;
 
 	/**
 	 * @brief Constructor
@@ -82,8 +96,8 @@ public:
 	 * @param[in] sensorName User name for the sensor (string)
 	 * @param[in] soundingPeriod Period to what the sensor shall be evaluated
 	 */
-	Dht11(const std::string &sensorName, const unsigned int soundingPeriod, const unsigned int gpioPin);
-
+	Dht11(const std::string &sensorName, const unsigned int soundingPeriod,
+			const unsigned int gpioPin);
 
 	/**
 	 * @brief Destructor
@@ -118,7 +132,6 @@ public:
 	 * @return Temperature
 	 */
 	float getTemperature() const;
-
 
 	/*
 	 * Operational Functions
