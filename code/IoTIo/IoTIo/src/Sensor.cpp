@@ -54,6 +54,9 @@ Sensor::Sensor(const std::string &sensorName,
 	/* Set the default Sounding value */
 	_soundingPeriod = soundingPeriod;
 
+	/* Offset time */
+	_offsetTime = 0;
+
 	/* Maximum Number of runs, by default unlimited */
 	_maxRuns = 0;
 
@@ -136,6 +139,9 @@ void Sensor::threadBody() {
 	if (_maxRuns == 0) {
 		_runsCounter = 1;
 	}
+
+	/* Apply the offset time configured */
+	std::this_thread::sleep_for(std::chrono::milliseconds(_offsetTime));
 
 	while (_runsCounter > 0) {
 

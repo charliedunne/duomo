@@ -36,7 +36,7 @@
 
 /* wiringPi library to manage GPIO */
 extern "C" {
-#include <wiringPi.h>
+#include "wiringPi.h"
 }
 
 /* *****************************************************************************

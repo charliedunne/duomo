@@ -37,7 +37,7 @@
 
 /* PAHO MQTT Library */
 extern "C" {
-#include <MQTTClient.h>
+#include "MQTTClient.h"
 }
 
 /* *****************************************************************************
@@ -53,6 +53,9 @@ private:
 
 	/** @brief Sounding Period in milliseconds [ms] */
 	unsigned int _soundingPeriod;
+
+	/** @brief Offset in milliseconds [ms] */
+	unsigned int _offsetTime;
 
 	/** @brief Number of executions of the main thread, 0 means unlimited */
 	unsigned int _maxRuns;
@@ -97,12 +100,12 @@ public:
 	/* Constructors */
 
 	/** @brief Delete default constructor */
-	Sensor() = delete;
+	//Sensor() = delete;
 
 	/**
 	 * @brief No copy constructor for this class
 	 */
-	Sensor(const Sensor&) = delete;
+	//Sensor(const Sensor&) = delete;
 
 	/**
 	 * @brief No assignment operation for this class

@@ -88,7 +88,7 @@ public:
 	 * there are two instances of the same object since it is associated
 	 * to a specific gpio pin.
 	 */
-	Dht11(const Dht11&) = delete;
+	//Dht11(const Dht11&);
 
 	/**
 	 * @brief Constructor
