@@ -1,5 +1,5 @@
 /**
- * @addtogroup main
+ * @addtogroup Ads1115
  *
  * @{
  *
@@ -18,9 +18,9 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  *
- * @file main.cpp
- * @brief (see main.h)
- * @details (see main.h)
+ * @file Ads1115.cpp
+ * @brief (see Ads1115.h)
+ * @details (see Ads1115.h)
  *
  */
 
@@ -28,34 +28,45 @@
  * INCLUDES
  * ****************************************************************************/
 
-/* Gtest */
-#include "gtest/gtest.h"
+/* Provided Interface */
+#include "Ads1115.h"
 
-#include <thread>
+/* WiringPi */
+#include <wiringPi.h>
+#include <ads1115.h>
+
+/* Data types */
 
 /* *****************************************************************************
  * PRIVATE DECLARATIONS
  * ****************************************************************************/
 
 
-int main(int argc, char * argv[])
-{
-	/* Results from test */
+Ads1115::~Ads1115() {
+	// TODO Auto-generated destructor stub
+}
+
+void Ads1115::operation() {
+
+
+}
+
+Ads1115::Ads1115() : Sensor("Ads1115", 1000) {
+
+
+}
+
+int Ads1115::registerData(void) {
+
+	/* Return code */
 	int iRetCode = 0;
 
-	/* Initialization of Google Test */
-	::testing::InitGoogleTest(&argc, argv);
 
-	::testing::GTEST_FLAG(filter) = "Constructor";
-
-	/* Run utests */
-	iRetCode = RUN_ALL_TESTS();
 
 	return iRetCode;
-
 }
 
 
 /**
- * @} (main)
+ * @} (Ads1115)
  */
