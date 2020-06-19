@@ -24,8 +24,8 @@
  *
  */
 
-#ifndef ADS1115_H_
-#define ADS1115_H_
+#ifndef ADS1115DEV_H_
+#define ADS1115DEV_H_
 
 /* *****************************************************************************
  *  INCLUDES
@@ -44,7 +44,7 @@
  *  CLASS DECLARATION
  * ****************************************************************************/
 
-class Ads1115: public Sensor {
+class Ads1115Dev: public Sensor {
 
 private:
 
@@ -61,21 +61,48 @@ private:
 	 */
 	std::vector<std::unique_ptr<Data>> _data;
 
+	/**
+	 * @brief list of TOKENs for each device connected to the Ads1115
+	 */
+	std::vector<std::string> _tokens;
+
+	/**
+	 * @brief list of TOPICs for each device connected to the Ads1115
+	 */
+	std::vector<std::string> _topics;
+
 public:
 
 	/**
-	 * @brief Constructor
+	 * @brief Private Constructor. It is a singleton class
 	 */
-	Ads1115();
+	Ads1115Dev();
 
+	/**
+	 * @brief Private Constructor. It is a singleton class
+	 */
+	Ads1115Dev(std::string name, int soundingPeriod, int i2cAddress);
 
-	virtual ~Ads1115();
+	virtual ~Ads1115Dev();
 
 	/**
 	 * @brief Definition of the abstract class method operation() that contains
 	 * the logic to retrieve information from sensor.
 	 */
 	virtual void operation();
+
+	/**
+	 * @brief This function is used to register (add) a new device connected
+	 * to the Ads1115.
+	 *
+	 * @param[in] name String with the sensor name (for logging/reporting
+	 * purposes)
+	 * @param[in] addrOffset Identifier of the pin where the device is
+	 * connected to [1..4]
+	 * @param[in] m Slope of the linear equation in the form y = mx + a
+	 * @param[in] a Offset of the linear equation in the form y = mx + a
+	 */
+	void addDevice(std::string name, uint8_t addrOffset, int m, int a);
 
 
 	/*
@@ -88,11 +115,28 @@ private:
 	 * @brief Private function that shall extract the raw values
 	 * from the sensor and shall place them in the private vector @b _outputs
 	 *
+	 * @attention Note that this function shall perform a registration of all
+	 * the devices connected to the container Ads1115
+	 *
 	 * @return Return code
 	 * @retval 0 (OK) if the values are captured correctly
 	 * @retval -1 (ERROR) if the values were not obtained.
 	 */
 	int registerData(void);
+
+	/**
+	 * @brief WiringPI initialization so the Ads115 device can be operated
+	 *
+	 */
+	void wiringPiInit(void);
+
+	/**
+	 * @brief WiringPI extraction of RAW value for a specific pin
+	 *
+	 * @param[in] pin Pin number to obtain the data from
+	 * @return Raw value (integer) of the data registered
+	 */
+	int wiringPiRead(uint8_t pin);
 
 
 protected:
@@ -107,7 +151,7 @@ protected:
 
 };
 
-#endif /* ADS1115_H_ */
+#endif /* ADS1115DEV_H_ */
 
 //
 // Make a singleton design where only one instance of the object is done

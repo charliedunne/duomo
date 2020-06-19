@@ -1,5 +1,5 @@
 /**
- * @addtogroup Ads1115
+ * @addtogroup LinearAnalogData
  *
  * @{
  *
@@ -18,9 +18,9 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  *
- * @file Ads1115.cpp
- * @brief (see Ads1115.h)
- * @details (see Ads1115.h)
+ * @file LinearAnalogData.cpp
+ * @brief (see LinearAnalogData.h)
+ * @details (see LinearAnalogData.h)
  *
  */
 
@@ -29,44 +29,33 @@
  * ****************************************************************************/
 
 /* Provided Interface */
-#include "Ads1115.h"
-
-/* WiringPi */
-#include <wiringPi.h>
-#include <ads1115.h>
-
-/* Data types */
+#include "LinearAnalogData.h"
 
 /* *****************************************************************************
  * PRIVATE DECLARATIONS
  * ****************************************************************************/
 
+LinearAnalogData::LinearAnalogData() : LinearAnalogData("", 0 , 0) {
+	// TODO Auto-generated constructor stub
+}
 
-Ads1115::~Ads1115() {
+LinearAnalogData::LinearAnalogData(std::string dataName, float m, float a) : Data(dataName) {
+
+	/* Initialize coefficients */
+	_m = m;
+	_a = a;
+}
+
+LinearAnalogData::~LinearAnalogData() {
 	// TODO Auto-generated destructor stub
 }
 
-void Ads1115::operation() {
+void LinearAnalogData::calibrate() {
 
-
+	/* Implementation of the linear equation in the form y = mx + a */
+	_value = _m * _rawValue + _a;
 }
-
-Ads1115::Ads1115() : Sensor("Ads1115", 1000) {
-
-
-}
-
-int Ads1115::registerData(void) {
-
-	/* Return code */
-	int iRetCode = 0;
-
-
-
-	return iRetCode;
-}
-
 
 /**
- * @} (Ads1115)
+ * @} (LinearAnalogData)
  */

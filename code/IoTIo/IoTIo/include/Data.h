@@ -46,6 +46,12 @@ private:
 	std::string _dataName;
 
 	/**
+	 * @brief General purpose ID for managing data inside arrays
+	 */
+	int id;
+
+protected:
+	/**
 	 * @brief Raw data
 	 */
 	int _rawValue;
@@ -134,6 +140,18 @@ public:
 	 * @param[in] value Calibrated value
 	 */
 	void setValue(float value);
+
+	/**
+	 * @brief Obtain the Id
+	 * @return ID
+	 */
+	int getId() const;
+
+	/**
+	 * @brief Set the ID
+	 * @param[in] id to set
+	 */
+	void setId(int id);
 
 private:
 

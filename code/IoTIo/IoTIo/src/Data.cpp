@@ -107,6 +107,21 @@ void Data::calibrate() {
 	_value = _rawValue;
 }
 
+/**
+ * @brief Obtain the Id
+ * @return ID
+ */
+int Data::getId() const {
+	return id;
+}
+
+/**
+ * @brief Set the ID
+ * @param[in] id to set
+ */
+void Data::setId(int id) {
+	this->id = id;
+}
 
 /**
  * @} (Data)

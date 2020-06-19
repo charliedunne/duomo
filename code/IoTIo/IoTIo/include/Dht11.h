@@ -60,18 +60,6 @@ private:
 	float _humidity;
 
 	/*
-	 * MQTT Configuration
-	 */
-
-	/** @TODO All these data should come from an xml file */
-
-	/** @brief API Key to connect */
-	std::string _accessToken = "LIRMyALH8x164XD3a4kWz";
-
-	/** @brief Topic */
-	std::string _topic = "v1/devices/me/telemetry";
-
-	/*
 	 * Derive Constructors
 	 */
 

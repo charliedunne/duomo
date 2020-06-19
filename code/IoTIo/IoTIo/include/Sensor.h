@@ -85,6 +85,20 @@ private:
 protected:
 
 	/*
+	 * MQTT Configuration
+	 */
+
+	/** @TODO All these data should come from an xml file */
+
+	/** @brief API Key to connect */
+	std::string _accessToken = "LIRMyALH8x164XD3a4kWz";
+
+	/** @brief Topic */
+	std::string _topic = "v1/devices/me/telemetry";
+
+protected:
+
+	/*
 	 * Note that the pure virtual function must be declared prior to the destructor
 	 * (I don't know why)
 	 */
@@ -278,6 +292,29 @@ public:
 	 */
 	void sendMqttMessage(const std::string topic, const std::string message);
 
+	/**
+	 * @brief Get the Access Token Key
+	 * @return Access Token key
+	 */
+	const std::string& getAccessToken() const;
+
+	/**
+	 * @brief Set the Access Token Key
+	 * @param[in] accessToken String with the Access token key
+	 */
+	void setAccessToken(const std::string &accessToken);
+
+	/**
+	 * @brief Get the Topic used for sending the MQTT messages
+	 * @return string with the topic requested
+	 */
+	const std::string& getTopic() const;
+
+	/**
+	 * @brief Set the Topic to send the MQTT message to
+	 * @param[in] topic string with the topic
+	 */
+	void setTopic(const std::string &topic);
 };
 
 #endif /* SENSOR_H_ */

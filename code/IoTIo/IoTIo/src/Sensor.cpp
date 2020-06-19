@@ -308,6 +308,23 @@ void Sensor::sendMqttMessage(const std::string topic,
 	}
 }
 
+const std::string& Sensor::getAccessToken() const {
+	return _accessToken;
+}
+
+void Sensor::setAccessToken(
+		const std::string &accessToken = "LIRMyALH8x164XD3a4kWz") {
+	_accessToken = accessToken;
+}
+
+const std::string& Sensor::getTopic() const {
+	return _topic;
+}
+
+void Sensor::setTopic(const std::string &topic = "v1/devices/me/telemetry") {
+	_topic = topic;
+}
+
 /**
  * @} (Sensor)
  */
